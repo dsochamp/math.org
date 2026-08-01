@@ -1,27 +1,39 @@
 <!DOCTYPE html>
 <html>
     <head>
+        
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Elms+Sans:ital,wght@0,100..900;1,100..900&family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&family=Walter+Turncoat&display=swap');
 
+        
             body {
                 font-family: "Walter Turncoat", cursive;
                 background-color: #49516F;
-                /* background-image: url('https://w0.peakpx.com/wallpaper/824/461/HD-wallpaper-blue-digits-background-math-concept-numbers-digits-texture-blue-backgrounds.jpg'); */
+                background-image: url('math-org.png'); 
                 display: grid;
                 place-content: center;
+                color: whitesmoke;
+                line-height: 40px;
             }
 
             h1 {
                 text-align:center;
-                color: white;
-                font-size: 50px;
+                color: rgb(251, 251, 249);
+                font-size: 70px;
+                text-shadow: 5px 5px 20px #000000;
+            }
+
+            button {
+                background-color: rgba(0, 0, 0, 0);
+                border-color: rgba(0, 0, 0, 0);
             }
 
             .container {
                 place-content: center;
                 display: grid;
                 grid-template-columns: 1fr 1fr 1fr;
+                background-color: rgba(244, 246, 251, 0.326);
+                border-radius: 25px;
             }
 
             .container-div{
@@ -31,48 +43,128 @@
                 border-width: 10px;
             }
 
-            img {
-                object-fit: contain;
-                width: 400px;
-                border-radius: 15px;
-                border: 5px solid whitesmoke;
-                border-style: inset;
+            p {
+                font-family: 'Elms Sans', monospace;
+                color: rgb(254, 255, 255);
+                text-align: center;
+                
             }
 
-            p {
-                font-family: 'Merriweather Sans', sans-serif;
-                text-align: center;
-                color: whitesmoke;
+            .glass-card {
+                background-color: rgba(240, 248, 255, 0.63);
+                border: 5px solid rgba(240, 248, 255, 0.5);
+                border-radius: 25px;
+                padding: 25px;
+                backdrop-filter: blur(2px);
+                color:#49516F;
             }
+
+            .modal-box {
+                background: #111;
+                padding: 15px;
+                border-radius: 8px;
+                text-align: right;
+            }
+
+            input {
+                background-color: beige;
+                height: 30px;
+                width: 500px;
+                font-family: 'Elms Sans', monospace;
+            }
+
+            #prompt {
+                height: 35px;
+            }
+            
+            #response {
+                color: #49516F;
+            }
+            
         </style>
+
+        <!-- KaTeX CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+
+        <!-- KaTeX JS -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+
+        <!-- Auto-render extension to parse math on page load -->
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+                onload="renderMathInElement(document.getElementById('response'));"></script>
     </head>
     <body>
-        <br>
-        <div>
-            <h1>MATH.org</h1>
-            <p>Welcome to math.org, a project to help students understand math concepts.</p>
-        </div>
+        <h1>math.org</h1>
+        <p style="color: antiquewhite; text-shadow:  10px 10px 8px #000000, 0 0 1em rgb(0, 21, 255);">Type in ANY concept you don't understand and let AI visualise it.</p>
         
-        <div class="container">
-            <div class="container-div">
-                <img src="https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSXhNon5Tt9OKWZm7Ek2p-jXOAun75fr2sjOklDq9ECtSuH9Fis1I5EZ0PgmeJTTSUF5e-BJjP4VMQ5xsIGcMVHYEE&s=19">
-            </div>
-            <div class="container-div">
-                <img src="https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSXhNon5Tt9OKWZm7Ek2p-jXOAun75fr2sjOklDq9ECtSuH9Fis1I5EZ0PgmeJTTSUF5e-BJjP4VMQ5xsIGcMVHYEE&s=19">
-            </div>
-            <div class="container-div">
-                <img src="https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSXhNon5Tt9OKWZm7Ek2p-jXOAun75fr2sjOklDq9ECtSuH9Fis1I5EZ0PgmeJTTSUF5e-BJjP4VMQ5xsIGcMVHYEE&s=19">
-            </div>
-            <div class="container-div">
-                <img src="https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSXhNon5Tt9OKWZm7Ek2p-jXOAun75fr2sjOklDq9ECtSuH9Fis1I5EZ0PgmeJTTSUF5e-BJjP4VMQ5xsIGcMVHYEE&s=19">
-            </div>
-            <div class="container-div">
-                <img src="https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSXhNon5Tt9OKWZm7Ek2p-jXOAun75fr2sjOklDq9ECtSuH9Fis1I5EZ0PgmeJTTSUF5e-BJjP4VMQ5xsIGcMVHYEE&s=19">
-            </div>
-            <div class="container-div">
-                <img src="https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSXhNon5Tt9OKWZm7Ek2p-jXOAun75fr2sjOklDq9ECtSuH9Fis1I5EZ0PgmeJTTSUF5e-BJjP4VMQ5xsIGcMVHYEE&s=19">
-            </div>
+        <br>
+        <br>    
+
+        <div class="glass-card" id="enterbox">
+            <label for="api_key">Please enter your API key here: </label>
+            <input id="api_key" type="password" placeholder=" You can get one from Gemini..."><h4></h4> <!-- I surprisingly got the spacing I wanted using empty h4 tags -->
+            <label for="prompt">What concept are you currently struggling with?: </label>
+            <input id="prompt" type="text" placeholder=" i.e. Trigonometry on the Unit Circle"><h4></h4>
+            <label for="source">What source would you like to give the AI for its research? (Type N/A if not available): </label>
+            <input style="width: 450px !important;" id="source" type="url" placeholder="i.e. https://tutorial.math.lamar.edu/pdf/trig_cheat_sheet.pdf"><h4></h4>
+            <button onclick="askGemini()" id="generate" style="background-color: rgb(164, 203, 237); padding: 15px; font-family: 'Elms Sans', monospace; border-radius: 15px;">Generate</button>
+        </div>  
+        <br><br>
+        <div class="glass-card">
+            <div style="width: 900px !important; height: 600px !important;" id="response">Your generating simulation will be presented here.</div>
         </div>
 
+        <script>
+            async function askGemini() {
+                const responseBox = document.getElementById("response");
+                const apiKey = document.getElementById("api_key").value.trim();
+                const prompt = document.getElementById("prompt").value.trim();
+                const source = document.getElementById("source").value.trim();
+
+                if (!apiKey || !prompt) {
+                    responseBox.textContent = "Please enter both your API key and a concept.";
+                    return;
+                }
+
+                let finalPrompt = prompt;
+                if (source && source.toUpperCase() !== "N/A") {
+                    finalPrompt = `Create a high-quality simulation to be embedded into a 900px*600px div on an HTML website based on this misunderstood concept, ${prompt}\n\nUse this source for context: ${source}. RETURN ONLY THE HTML`;
+                }
+
+                responseBox.textContent = "Generating...";
+
+                try {
+                    const response = await fetch(
+                        `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${encodeURIComponent(apiKey)}`,
+                        {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({
+                                contents: [
+                                    {
+                                        parts: [{ text: finalPrompt }]
+                                    }
+                                ]
+                            })
+                        }
+                    );
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(data.error?.message || "Request failed.");
+                    }
+
+                    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "No response received.";
+                    responseBox.innerHTML = reply;
+                    console.log(data);
+                } catch (error) {
+                    responseBox.textContent = `Error: ${error.message}`;
+                    console.error(error);
+                }
+            }
+        </script>
     </body>
 </html>
