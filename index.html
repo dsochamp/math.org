@@ -123,7 +123,7 @@
 
                 let finalPrompt = prompt;
                 if (source && source.toUpperCase() !== "N/A") {
-                    finalPrompt = `Create a high-quality simulation to be embedded into a 900px*600px div on an HTML website based on this misunderstood concept, ${prompt}\n\nUse this source for context: ${source}. RETURN ONLY THE HTML`;
+                    finalPrompt = `Create a high-quality simulation to be embedded into a 900px*600px div on an HTML website based on this misunderstood concept, ${prompt}\n\nUse this source for context: ${source}. RETURN ONLY THE HTML. Make sure the project is complete`;
                 }
 
                 responseBox.textContent = "Generating...";
