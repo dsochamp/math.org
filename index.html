@@ -83,15 +83,17 @@
             
         </style>
 
-        <!-- KaTeX CSS -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
-
-        <!-- KaTeX JS -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
-
-        <!-- Auto-render extension to parse math on page load -->
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
-                onload="renderMathInElement(document.getElementById('response'));"></script>
+        <script>
+            MathJax = {
+              tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']]
+              }
+            };
+        </script>
+          
+        <!-- 2. Load the CDN script -->
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     </head>
     <body>
         <h1>math.org</h1>
@@ -111,7 +113,7 @@
         </div>  
         <br><br>
         <div class="glass-card">
-            <div style="width: 900px !important; height: 600px !important;" id="response">Your generating simulation will be presented here.</div>
+            <div id="response">Your generating simulation will be presented here.</div>
         </div>
 
         <script>
