@@ -5,25 +5,26 @@
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Elms+Sans:ital,wght@0,100..900;1,100..900&family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&family=Walter+Turncoat&display=swap');
 
-        
             body {
-                font-family: "Walter Turncoat", cursive;
                 background-color: #49516F;
                 background-image: url('math-org.png'); 
-                display: grid;
-                place-content: center;
+                overflow:scroll;
+            }
+
+            #bodymain {
+                font-family: "Walter Turncoat", cursive;
                 color: whitesmoke;
                 line-height: 40px;
             }
 
-            h1 {
+            #bodymain h1 {
                 text-align:center;
                 color: rgb(251, 251, 249);
                 font-size: 70px;
                 text-shadow: 5px 5px 20px #000000;
             }
 
-            button {
+            #bodymain button {
                 background-color: rgba(0, 0, 0, 0);
                 border-color: rgba(0, 0, 0, 0);
             }
@@ -43,7 +44,7 @@
                 border-width: 10px;
             }
 
-            p {
+            #bodymain p {
                 font-family: 'Elms Sans', monospace;
                 color: rgb(254, 255, 255);
                 text-align: center;
@@ -66,7 +67,7 @@
                 text-align: right;
             }
 
-            input {
+            #bodymain input {
                 background-color: beige;
                 height: 30px;
                 width: 500px;
@@ -79,6 +80,16 @@
             
             #response {
                 color: #49516F;
+                min-height: 120px;
+            }
+
+            #response iframe {
+                width: 100%;
+                min-height: 500px;
+                border: 0;
+                border-radius: 16px;
+                background: white;
+                box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
             }
             
         </style>
@@ -86,9 +97,10 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">    
         <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
         <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
-            onload="renderMathInElement(document.getElementbyId('response'));"></script>
+            onload="if (window.renderMathInElement) renderMathInElement(document.getElementById('response'));"></script>
     </head>
     <body>
+    <div id="bodymain">
         <h1>math.org</h1>
         <p style="color: antiquewhite; text-shadow:  10px 10px 8px #000000, 0 0 1em rgb(0, 21, 255);">Type in ANY concept you don't understand and let AI visualise it.</p>
         
@@ -104,29 +116,35 @@
             <input style="width: 450px !important;" id="source" type="url" placeholder="i.e. https://tutorial.math.lamar.edu/pdf/trig_cheat_sheet.pdf"><h4></h4>
             <button onclick="askGemini()" id="generate" style="background-color: rgb(164, 203, 237); padding: 15px; font-family: 'Elms Sans', monospace; border-radius: 15px;">Generate</button>
         </div>  
+
+    </div>
         <br><br>
         <div class="glass-card">
-            <div id="response">Your generating simulation will be presented here.</div>
+            <p id="status">Your generating simulation will be presented here.</p>
+            <div id="response"></div>
         </div>
-        <br><br><p>dsochamp / Project 1 Aug 2026</p><br>
+        <br><br><p style="font-family:'Elms Sans', monospace; color:whitesmoke; text-shadow: 6px 6px 10px #000000;">dsochamp / Project 1 Aug 2026</p><br>
         <script>
             async function askGemini() {
+                const status = document.getElementById("status");
                 const responseBox = document.getElementById("response");
                 const apiKey = document.getElementById("api_key").value.trim();
                 const prompt = document.getElementById("prompt").value.trim();
                 const source = document.getElementById("source").value.trim();
 
                 if (!apiKey || !prompt) {
-                    responseBox.textContent = "Please enter both your API key and a concept.";
+                    status.textContent = "Please enter both your API key and a concept.";
                     return;
                 }
 
-                let finalPrompt = prompt;
-                if (source && source.toUpperCase() !== "N/A") {
-                    finalPrompt = `Create a high-quality simulation to be embedded into a 900px*600px div on an HTML website based on this misunderstood concept, ${prompt}\n\nUse this source for context: ${source}. RETURN ONLY THE HTML. Make sure the project is complete`;
-                }
+                const conceptPrompt = `Create a single self-contained HTML snippet that visualizes the concept "${prompt}".`;
+                const sourcePrompt = source && source.toUpperCase() !== "N/A"
+                    ? `Use this source for context: ${source}.`
+                    : "";
+                const finalPrompt = `${conceptPrompt}\n\n${sourcePrompt}\n\nReturn ONLY the HTML snippet, with no markdown fences and no explanation. Do not include <html>, <head>, <body>, or <title> tags. Use one root container such as a div, svg, or canvas. Make it work when inserted into an existing webpage and keep it complete and self-contained.`;
 
-                responseBox.textContent = "Generating...";
+                status.textContent = "Generating...";
+                responseBox.innerHTML = "";
 
                 try {
                     const response = await fetch(
@@ -152,11 +170,39 @@
                         throw new Error(data.error?.message || "Request failed.");
                     }
 
-                    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "No response received.";
-                    responseBox.innerHTML = reply;
+                    const rawReply = data.candidates?.[0]?.content?.parts?.[0]?.text || "No response received.";
+                    const cleanReply = rawReply
+                        .replace(/^```(?:html)?\s*/i, "")
+                        .replace(/```$/i, "")
+                        .trim();
+
+                    if (!cleanReply) {
+                        throw new Error("The model returned an empty response.");
+                    }
+
+                    const iframe = document.createElement("iframe");
+                    iframe.srcdoc = `<!doctype html>
+                    <html>
+                        <head>
+                            <style>
+                                body { margin: 0; padding: 16px; font-family: "Elms Sans", monospace; background: transparent; color: #49516F; box-sizing: border-box; }
+                                * { box-sizing: border-box; }
+                            </style>
+                        </head>
+                        <body>${cleanReply}</body>
+                    </html>`;
+                    iframe.setAttribute("sandbox", "allow-scripts");
+                    iframe.style.width = "100%";
+                    iframe.style.minHeight = "500px";
+                    iframe.style.border = "0";
+                    iframe.style.borderRadius = "16px";
+                    iframe.style.background = "white";
+
+                    responseBox.appendChild(iframe);
+                    status.textContent = "Simulation ready.";
                     console.log(data);
                 } catch (error) {
-                    responseBox.textContent = `Error: ${error.message}`;
+                    status.textContent = `Error: ${error.message}`;
                     console.error(error);
                 }
             }
