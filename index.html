@@ -85,7 +85,7 @@
 
             #response iframe {
                 width: 100%;
-                min-height: 500px;
+                min-height: 700px;
                 border: 0;
                 border-radius: 16px;
                 background: white;
@@ -102,7 +102,6 @@
     <body>
     <div id="bodymain">
         <h1>math.org</h1>
-        <p style="color: antiquewhite; text-shadow:  10px 10px 8px #000000, 0 0 1em rgb(0, 21, 255);">Type in ANY concept you don't understand and let AI visualise it.</p>
         
         <br>
         <br>    
@@ -120,10 +119,10 @@
     </div>
         <br><br>
         <div class="glass-card">
-            <p id="status">Your generating simulation will be presented here.</p>
+            <p id="status" style="font-family: 'Elms Sans', monospace;">Your generating simulation will be presented here.</p>
             <div id="response"></div>
         </div>
-        <br><br><p style="font-family:'Elms Sans', monospace; color:whitesmoke; text-shadow: 6px 6px 10px #000000;">dsochamp / Project 1 Aug 2026</p><br>
+        <br><br><p style="background-color: azure; padding: 10px; border-radius: 0.7rem; width: 300px; text-align: center; font-family:'Elms Sans', monospace; color: #49516F;">dsochamp / Project 1 Aug 2026</p><br>
         <script>
             async function askGemini() {
                 const status = document.getElementById("status");
@@ -131,6 +130,7 @@
                 const apiKey = document.getElementById("api_key").value.trim();
                 const prompt = document.getElementById("prompt").value.trim();
                 const source = document.getElementById("source").value.trim();
+                responseBox.innerHTML = '';
 
                 if (!apiKey || !prompt) {
                     status.textContent = "Please enter both your API key and a concept.";
@@ -193,7 +193,7 @@
                     </html>`;
                     iframe.setAttribute("sandbox", "allow-scripts");
                     iframe.style.width = "100%";
-                    iframe.style.minHeight = "500px";
+                    iframe.style.minHeight = "700px";
                     iframe.style.border = "0";
                     iframe.style.borderRadius = "16px";
                     iframe.style.background = "white";
