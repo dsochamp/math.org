@@ -7,12 +7,13 @@
 
             body {
                 background-color: #49516F;
-                background-image: url('math-org.png'); 
+                background-image: url('math-org.png');
                 overflow:scroll;
             }
 
             #bodymain {
-                font-family: "Walter Turncoat", cursive;
+                font-family: 'Walter Turncoat', cursive;
+                font-weight: 600;
                 color: whitesmoke;
                 line-height: 40px;
             }
@@ -102,17 +103,17 @@
     <body>
     <div id="bodymain">
         <h1>math.org</h1>
-        
-        <br>
-        <br>    
+        <br> 
 
         <div class="glass-card" id="enterbox">
             <label for="api_key">Please enter your API key here: </label>
-            <input id="api_key" type="password" placeholder=" You can get one from Gemini..."><h4></h4> <!-- I surprisingly got the spacing I wanted using empty h4 tags -->
+            <input id="api_key" type="password" placeholder=" You can get one from Gemini.."><h4></h4> <!-- I surprisingly got the spacing I wanted using empty h4 tags. Don't judge me... -->
             <label for="prompt">What concept are you currently struggling with?: </label>
             <input id="prompt" type="text" placeholder=" i.e. Trigonometry on the Unit Circle"><h4></h4>
             <label for="source">What source would you like to give the AI for its research? (Type N/A if not available): </label>
             <input style="width: 450px !important;" id="source" type="url" placeholder="i.e. https://tutorial.math.lamar.edu/pdf/trig_cheat_sheet.pdf"><h4></h4>
+            <label for="focus">What aspect would you like the AI to specifically focus on (Type N/A if not available):</label>
+            <input style="width:550px !important;" id="focus" placeholder="i.e. The relationship between sin and cos as the sides of a right-angled triangle"><h4></h4>
             <button onclick="askGemini()" id="generate" style="background-color: rgb(164, 203, 237); padding: 15px; font-family: 'Elms Sans', monospace; border-radius: 15px;">Generate</button>
         </div>  
 
@@ -122,7 +123,9 @@
             <p id="status" style="font-family: 'Elms Sans', monospace;">Your generating simulation will be presented here.</p>
             <div id="response"></div>
         </div>
-        <br><br><p style="background-color: azure; padding: 10px; border-radius: 0.7rem; width: 300px; text-align: center; font-family:'Elms Sans', monospace; color: #49516F;">dsochamp / Project 1 Aug 2026</p><br>
+        <br><br>
+        <p style="background-color: azure; color: #49516F; padding: 10px; border-radius: 0.7rem; width: 300px; text-align: center; font-family:'Elms Sans', monospace; ">dsochamp / Project 1 Aug 2026</p>
+        <br>
         <script>
             async function askGemini() {
                 const status = document.getElementById("status");
@@ -130,6 +133,8 @@
                 const apiKey = document.getElementById("api_key").value.trim();
                 const prompt = document.getElementById("prompt").value.trim();
                 const source = document.getElementById("source").value.trim();
+                const focuspoint = document.getElementById("focus").value.trim();
+
                 responseBox.innerHTML = '';
 
                 if (!apiKey || !prompt) {
@@ -141,7 +146,10 @@
                 const sourcePrompt = source && source.toUpperCase() !== "N/A"
                     ? `Use this source for context: ${source}.`
                     : "";
-                const finalPrompt = `${conceptPrompt}\n\n${sourcePrompt}\n\nReturn ONLY the HTML snippet, with no markdown fences and no explanation. Do not include <html>, <head>, <body>, or <title> tags. Use one root container such as a div, svg, or canvas. Make it work when inserted into an existing webpage and keep it complete and self-contained.`;
+                const focusPrompt = focuspoint && focuspoint.toUpperCase() !== "N/A"
+                    ? `and specifically focus on explaining ${focuspoint}.`
+                    : "";
+                const finalPrompt = `${conceptPrompt}\n\n${sourcePrompt}\n\n${focusPrompt}\n\n. Return ONLY the HTML snippet, with no markdown fences and no explanation. Do not include <html>, <head>, <body>, or <title> tags. Use one root container such as a div, svg, or canvas. Make it work when inserted into an existing webpage and keep it complete and self-contained.`;
 
                 status.textContent = "Generating...";
                 responseBox.innerHTML = "";
