@@ -139,10 +139,15 @@
             <p id="status" style="font-family: 'Elms Sans', monospace;">Your generating simulation will be presented here.</p>
             <div id="response"></div>
         </div>
+        <br>
+        <button id="downloadfile" style="background-color: rgb(164, 203, 237); padding: 15px; font-family: 'Elms Sans', monospace; border-radius: 15px;">Download the simulation</button>
         <br><br>
         <p id="watermark">dsochamp / Project 1 Aug 2026</p>
         <br>
         <script>
+            let downloadbtn = document.getElementById("downloadfile");
+            let generatedHTML = "";
+
             async function askGemini() {
                 const status = document.getElementById("status");
                 const responseBox = document.getElementById("response");
@@ -195,7 +200,7 @@
                     }
 
                     const rawReply = data.candidates?.[0]?.content?.parts?.[0]?.text || "No response received.";
-                    const cleanReply = rawReply
+                    let cleanReply = rawReply
                         .replace(/^```(?:html)?\s*/i, "")
                         .replace(/```$/i, "")
                         .trim();
@@ -215,6 +220,7 @@
                         </head>
                         <body>${cleanReply}</body>
                     </html>`;
+                    generatedHTML = cleanReply;
                     iframe.setAttribute("sandbox", "allow-scripts");
                     iframe.style.width = "100%";
                     iframe.style.minHeight = "700px";
@@ -230,6 +236,30 @@
                     console.error(error);
                 }
             }
+
+            downloadbtn.addEventListener("click", () => {
+    
+                const htmlCode = generatedHTML;
+
+                // Turn the text into a file
+                const blob = new Blob([htmlCode], {
+                    type: "text/html"
+                });
+
+                // Create a temporary URL for the file
+                const url = URL.createObjectURL(blob);
+
+                // Create a temporary download link
+                const link = document.createElement("a");
+                link.href = url;
+                link.download = "index.html";
+
+                // Start the download
+                link.click();
+
+                // Clean up
+                URL.revokeObjectURL(url);
+            });
         </script>
     </body>
 </html>
