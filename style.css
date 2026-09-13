@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Elms+Sans:ital,wght@0,100..900;1,100..900&family=Merriweather+Sans:ital,wght@0,300..800;1,300..800&family=Walter+Turncoat&display=swap');
+
+
+body {
+  width: 100%;
+  height: 100vh;
+  background-color: #49516F; /* Dark slate background */
+  
+  /* Creates horizontal and vertical lines */
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.8) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.8) 1px, transparent 1px);
+  
+  /* Controls the size of the grid squares (e.g., 40px by 40px) */
+  background-size: calc(100vw / 33) calc(100vw / 33); 
+  overflow: scroll;
+}
+
+
+/* I have put the tag #bodymain so that my CSS formatting does not interfere with the generated simulation. */
+
+#bodymain {
+    font-family: 'Elms Sans', cursive;
+    font-weight: 600;
+    color: whitesmoke;
+    line-height: 40px;
+}
+
+#bodymain h1 {
+    text-align: center;
+    color: rgb(251, 251, 249);
+    font-size: 70px;
+    text-shadow: 5px 5px 20px #000000;
+}
+
+#bodymain button {
+    background-color: rgba(0, 0, 0, 0);
+    border-color: rgba(0, 0, 0, 0);
+    border-radius: calc(16px * var(--brm));
+    corner-shape: squircle;
+}
+
+#bodymain p {
+    font-family: 'Elms Sans', monospace;
+    color: rgb(254, 255, 255);
+    text-align: center;
+}
+
+:root {
+    --brm: 1;
+}
+
+@supports (corner-shape: squircle) {
+    :root {
+        --brm: 3;
+    }
+}
+
+.glass-card {
+    background-color: rgba(240, 248, 255, 0.63);
+    /*border: 5px solid rgba(240, 248, 255, 0.5);*/
+    -webkit-box-shadow: inset 2px 2px 0px -2px rgba(255, 255, 255, 0.7), inset 0 0 3px 1px rgba(255, 255, 255, 0.7);
+    box-shadow: inset 2px 2px 0px -2px rgba(255, 255, 255, 0.7), inset 0 0 3px 1px rgba(255, 255, 255, 0.7);
+    border-radius: calc(16px * var(--brm));
+    corner-shape: squircle;
+    padding: 25px;
+    backdrop-filter: blur(2px);
+    color: #49516F;
+}
+
+.modal-box {
+    background: #111;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: right;
+}
+
+#bodymain input {
+    background-color: beige;
+    height: 30px;
+    width: 500px;
+    font-family: 'Elms Sans', monospace;
+    border-radius: calc(16px * var(--brm));
+    corner-shape: squircle;
+}
+
+#prompt {
+    height: 35px;
+}
+
+#response {
+    color: #49516F;
+    min-height: 120px;
+}
+
+#response iframe {
+    width: 100%;
+    min-height: 700px;
+    border: 0;
+    border-radius: 16px;
+    background: white;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+#watermark {
+    border-radius: calc(16px * var(--brm));
+    corner-shape: squircle;
+    background-color: azure;
+    color: #49516F;
+    padding: 10px;
+    width: 300px;
+    text-align: center;
+    font-family: 'Elms Sans', monospace;
+}
